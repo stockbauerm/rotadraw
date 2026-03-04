@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rotadraw Generator</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>Rotadraw Generator</h1>
+      <p class="subtitle">Transform line drawings into rotadraw discs</p>
+    </header>
+
+    <div class="main-layout">
+      <!-- Left panel: Controls -->
+      <aside class="controls-panel">
+        <section class="control-group">
+          <h2>1. Input</h2>
+          <label class="upload-area" id="upload-area">
+            <input type="file" id="svg-input" accept=".svg" />
+            <span class="upload-label">Drop SVG here or click to upload</span>
+          </label>
+          <div class="sample-drawings">
+            <button id="load-sample-star" class="btn btn-sm">Sample: Star</button>
+            <button id="load-sample-cat" class="btn btn-sm">Sample: Cat</button>
+            <button id="load-sample-flower" class="btn btn-sm">Sample: Flower</button>
+          </div>
+        </section>
+
+        <section class="control-group">
+          <h2>2. Parameters</h2>
+          <label>
+            Positions (N)
+            <input type="range" id="num-positions" min="3" max="12" value="6" />
+            <span id="num-positions-val">6</span>
+          </label>
+          <label>
+            Disc diameter (mm)
+            <input type="range" id="disc-diameter" min="80" max="300" value="150" />
+            <span id="disc-diameter-val">150</span>
+          </label>
+          <label>
+            Slot width (mm)
+            <input type="range" id="slot-width" min="1" max="8" value="3" step="0.5" />
+            <span id="slot-width-val">3</span>
+          </label>
+          <label>
+            Min bridge width (mm)
+            <input type="range" id="min-bridge" min="1" max="10" value="2" step="0.5" />
+            <span id="min-bridge-val">2</span>
+          </label>
+        </section>
+
+        <section class="control-group">
+          <h2>3. Partitioning</h2>
+          <div class="radio-group">
+            <label><input type="radio" name="strategy" value="angular" checked /> Angular sectors</label>
+            <label><input type="radio" name="strategy" value="stripe" /> Spatial stripes</label>
+            <label><input type="radio" name="strategy" value="balanced" /> Balanced (graph)</label>
+          </div>
+          <label>
+            Rotation offset (°)
+            <input type="range" id="rotation-offset" min="0" max="360" value="0" />
+            <span id="rotation-offset-val">0°</span>
+          </label>
+        </section>
+
+        <section class="control-group">
+          <h2>4. Material preset</h2>
+          <select id="material-preset">
+            <option value="cardboard">Cardboard (3mm slot, 3mm bridge)</option>
+            <option value="plastic">Laser-cut plastic (1.5mm / 1.5mm)</option>
+            <option value="3dprint">3D printed (2mm / 2mm)</option>
+            <option value="paper">Paper / craft (5mm / 5mm)</option>
+            <option value="custom" selected>Custom</option>
+          </select>
+        </section>
+
+        <section class="control-group">
+          <h2>5. Actions</h2>
+          <button id="btn-generate" class="btn btn-primary" disabled>Generate Disc</button>
+          <button id="btn-animate" class="btn" disabled>Reveal Animation</button>
+          <button id="btn-export" class="btn" disabled>Export SVG</button>
+        </section>
+
+        <section class="control-group" id="validation-panel" style="display:none">
+          <h2>Validation</h2>
+          <ul id="validation-messages"></ul>
+        </section>
+      </aside>
+
+      <!-- Centre: Canvas views -->
+      <main class="canvas-area">
+        <div class="view-tabs">
+          <button class="tab active" data-view="input">Input Drawing</button>
+          <button class="tab" data-view="partition">Partition View</button>
+          <button class="tab" data-view="disc">Disc Preview</button>
+          <button class="tab" data-view="animation">Animation</button>
+        </div>
+        <div class="canvas-wrapper">
+          <canvas id="main-canvas" resize="true"></canvas>
+        </div>
+        <div id="status-bar" class="status-bar">Ready — upload an SVG to begin</div>
+      </main>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
